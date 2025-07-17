@@ -10,6 +10,4 @@ export interface Task {
   description?: string;
   dueDate?: string;
   status: TaskStatus;
-  createdAt: string;
-  updatedAt: string;
 }

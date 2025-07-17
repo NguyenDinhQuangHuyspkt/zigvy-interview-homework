@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Task as TaskType, TaskStatus } from '../../components/task/type';
 import TaskBoard from './TaskDashBoard';
-import { deleteTask, getAllTasks, updateTaskStatus } from '../../services/task/task.svc';
+import { createTask, deleteTask, getAllTasks, searchTasks, updateTaskStatus } from '../../services/task/task.svc';
 import { ESuccessCodes } from '../../constanst/app.const';
 import { toastSuccessHandler } from '../../utils/toast.utils';
 import { Button, Input } from 'antd';
+import { ModalCreateTask } from '../modal/modal-create-task';
 
 export const TaskContainer: React.FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -16,6 +17,8 @@ export const TaskContainer: React.FC = () => {
   const [from, setFrom] = useState('');
 
   const [to, setTo] = useState('');
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -58,6 +61,37 @@ export const TaskContainer: React.FC = () => {
     }
   };
 
+  const handleCreate = async (values:{
+    title: string;
+    description: string;
+    status: TaskStatus;
+    dueDate: string;
+  }) => {
+    setIsModalVisible(false);
+    try {
+      const res = await createTask(values);
+      if (res.code === ESuccessCodes.SUCCESS) {
+        toastSuccessHandler('Tạo task thành công');
+        fetchTasks();
+      }
+    } catch (err) {
+      console.error('Create task failed', err);
+    }
+  };
+
+  const handleSearch = async (e:  React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
+    try {
+      setSearch(e.target.value);
+      const res = await searchTasks(search);
+      setTasks(res.data);
+    } catch (err) {
+      console.error('Search failed', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="p-4">
       <div className="mb-4 flex gap-2">
@@ -66,7 +100,7 @@ export const TaskContainer: React.FC = () => {
           placeholder="Search title"
           value={search}
           className="border p-2 "
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleSearch}
         />
         <Input
           type="date"
@@ -80,11 +114,9 @@ export const TaskContainer: React.FC = () => {
           value={to}
           onChange={(e) => setTo(e.target.value)}
         />
-        <Button
-          onClick={() => fetchTasks()}
-          className="bg-blue-500 text-white px-4 rounded"
-        >
-          Search
+
+        <Button type="primary" onClick={() => setIsModalVisible(true)}>
+          + Tạo task mới
         </Button>
       </div>
 
@@ -97,6 +129,12 @@ export const TaskContainer: React.FC = () => {
           onDelete={handleDelete}
         />
       )}
+
+      <ModalCreateTask 
+        visible={isModalVisible}
+        onCreate={handleCreate}
+        onCancel={() => setIsModalVisible(false)}
+      />
     </div>
   );
 };

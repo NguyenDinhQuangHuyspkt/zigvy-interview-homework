@@ -26,9 +26,9 @@ const TaskBoard: React.FC<Props> = ({
           <h2 className="font-bold mb-2">{title}</h2>
           {tasks
             .filter((t) => t.status === status)
-            .map((t) => (
+            .map((t,index) => (
               <Task
-                key={t._id}
+                key={index}
                 task={t}
                 onUpdateStatus={onUpdateStatus}
                 onDelete={onDelete}
