@@ -41,4 +41,13 @@ export class TasksService {
   async findByStatus(status: ETaskStatus): Promise<Task[]> {
     return this.taskModel.find({ status }).exec();
   }
+
+  async search(query: string) {
+    return this.taskModel.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } },
+      ],
+    });
+  }
 }

@@ -27,7 +27,10 @@ export class TasksController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('q') query: string) {
+    if (query) {
+      return this.tasksService.search(query);
+    }
     return this.tasksService.findAll();
   }
 
