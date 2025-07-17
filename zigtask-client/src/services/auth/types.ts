@@ -5,10 +5,6 @@ export type TRequestLogin = {
 
 export type TResponseLogin = {
   accessToken: string;
-  user: {
-    id: string;
-    gmail: string;
-  };
 };
 
 export type TRequestRegister = {
@@ -16,4 +12,6 @@ export type TRequestRegister = {
   password: string;
 };
 
-export type TResponseRegister = {};
+export type TResponseRegister = {
+  accessToken: string;
+};

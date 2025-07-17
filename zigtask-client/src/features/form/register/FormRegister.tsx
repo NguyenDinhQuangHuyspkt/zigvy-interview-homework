@@ -8,8 +8,9 @@ import { register } from '../../../services/auth/auth.svc'
 import { genSchemaFormRegister } from './schema'
 import { useFormik } from 'formik'
 import { TFormRegister } from './type'
-import { ESuccessCodes } from '../../../constanst/app.const'
+import { ESuccessCodes, SSOCOOKIES } from '../../../constanst/app.const'
 import { IErrorObject, toastErrorHandler, toastSuccessHandler } from '../../../utils/toast.utils'
+import Cookies from 'js-cookie'
 
 const FormRegister : FC<TFormRegister>= (props) => {
   const navigate = useNavigate();
@@ -37,7 +38,8 @@ const FormRegister : FC<TFormRegister>= (props) => {
       if(res.code === ESuccessCodes.SUCCESS){
         setIsLoading(false);
         toastSuccessHandler("Đăng ký thành công!");
-        navigate("/");
+        Cookies.set(SSOCOOKIES.access,res.data.accessToken, { expires: 1 });
+        navigate("/main")
       }
 
     } catch (err) {

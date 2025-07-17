@@ -10,7 +10,8 @@ import { genLabelFormLogin } from "./utils";
 import { genSchemaFormLogin } from "./schema";
 import { login } from "../../../services/auth/auth.svc";
 import { IErrorObject, toastErrorHandler, toastSuccessHandler } from "../../../utils/toast.utils";
-import { ESuccessCodes } from "../../../constanst/app.const";
+import { ESuccessCodes, SSOCOOKIES } from "../../../constanst/app.const";
+import Cookies from "js-cookie";
 
 const FormLogin : FC<TFormLogin>= (props) => {
   const navigate = useNavigate();
@@ -35,6 +36,8 @@ const FormLogin : FC<TFormLogin>= (props) => {
       if(res.code === ESuccessCodes.SUCCESS){
         setIsLoading(false);
         toastSuccessHandler("Đăng nhập thành công!");
+        Cookies.set(SSOCOOKIES.access,res.data.accessToken, { expires: 1 });
+        navigate("/main")
       }
 
     } catch (err) {

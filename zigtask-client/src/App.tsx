@@ -4,6 +4,8 @@ import { Home } from './pages/home';
 import { createBrowserRouter } from 'react-router-dom';
 import { RouterProvider } from 'react-router';
 import Register from './pages/register';
+import AuthRequirement from './pages/auth/AuthRequire';
+import Authentication from './pages/auth';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,19 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register/>
+  },
+  {
+    element: <AuthRequirement />,
+    children:[
+      {
+        element: <Authentication />,
+        children:[
+          {
+            path: 'main'
+          }
+        ]
+      }
+    ]
   }
 ])
 
