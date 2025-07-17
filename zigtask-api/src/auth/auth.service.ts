@@ -6,7 +6,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from 'src/user/user.svc';
-import { ESuccessCodes } from 'src/constanst/api.const';
 
 @Injectable()
 export class AuthService {
@@ -23,12 +22,10 @@ export class AuthService {
 
     const hashed = await bcrypt.hash(password, 10);
     const user = await this.usersService.create(email, hashed);
+    const token = this.jwtService.sign({ email: email, password: password });
 
     if (user) {
-      return {
-        code: ESuccessCodes.Success,
-        message: 'Signup successful',
-      };
+      return { accessToken: token };
     }
   }
 
@@ -46,10 +43,6 @@ export class AuthService {
     const payload = { password: user.password, email: user.email };
     const token = this.jwtService.sign(payload);
 
-    return {
-      code: ESuccessCodes.Success,
-      message: 'Login successful',
-      data: { accessToken: token },
-    };
+    return { accessToken: token };
   }
 }
