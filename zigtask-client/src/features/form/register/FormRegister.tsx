@@ -8,6 +8,8 @@ import { register } from '../../../services/auth/auth.svc'
 import { genSchemaFormRegister } from './schema'
 import { useFormik } from 'formik'
 import { TFormRegister } from './type'
+import { ESuccessCodes } from '../../../constanst/app.const'
+import { IErrorObject, toastErrorHandler, toastSuccessHandler } from '../../../utils/toast.utils'
 
 const FormRegister : FC<TFormRegister>= (props) => {
   const navigate = useNavigate();
@@ -27,15 +29,20 @@ const FormRegister : FC<TFormRegister>= (props) => {
       setIsLoading(true);
       await formLoginSchema.validate(values);
 
-      await register({
+      const res = await register({
         email: values.email,
         password: values.password,
       });
 
-      setIsLoading(false);
+      if(res.code === ESuccessCodes.SUCCESS){
+        setIsLoading(false);
+        toastSuccessHandler("Đăng ký thành công!");
+        navigate("/");
+      }
 
     } catch (err) {
       setIsLoading(false);
+      toastErrorHandler(err as IErrorObject, 'Đăng ký thất bại, vui lòng thử lại!');
     }
   };
 
@@ -114,7 +121,8 @@ const FormRegister : FC<TFormRegister>= (props) => {
 
       <div className="flex gap-2 justify-center w-3/4 px-3">
         <Button
-          type='default'
+          type="primary"
+          disabled={loading}
           onClick={() => formik.submitForm()}
           className="rounded-md"
         >
@@ -124,7 +132,6 @@ const FormRegister : FC<TFormRegister>= (props) => {
         </Button>
 
         <Button
-          type="primary"
           onClick={handleNavigateLogin}
           disabled={loading}
           className="rounded-md text-lg font-quickSand"

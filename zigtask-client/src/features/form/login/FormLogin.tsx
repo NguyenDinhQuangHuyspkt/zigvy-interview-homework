@@ -9,6 +9,8 @@ import { useFormik } from "formik";
 import { genLabelFormLogin } from "./utils";
 import { genSchemaFormLogin } from "./schema";
 import { login } from "../../../services/auth/auth.svc";
+import { IErrorObject, toastErrorHandler, toastSuccessHandler } from "../../../utils/toast.utils";
+import { ESuccessCodes } from "../../../constanst/app.const";
 
 const FormLogin : FC<TFormLogin>= (props) => {
   const navigate = useNavigate();
@@ -30,10 +32,14 @@ const FormLogin : FC<TFormLogin>= (props) => {
 
       const res = await login(values);
 
-      setIsLoading(false);
+      if(res.code === ESuccessCodes.SUCCESS){
+        setIsLoading(false);
+        toastSuccessHandler("Đăng nhập thành công!");
+      }
 
     } catch (err) {
       setIsLoading(false);
+      toastErrorHandler(err as IErrorObject, 'Đăng nhập thất bại, vui lòng thử lại!');
     }
   };
 
