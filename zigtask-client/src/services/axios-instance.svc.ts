@@ -4,10 +4,10 @@ import { getAccessTokenFromCookie } from "../utils/auth.utils";
 
 export const AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_URL_SERVER || "",
-  withCredentials: true,
   paramsSerializer: (params) => {
     return QueryString.stringify(params);
   },
+  withCredentials: true,
 });
 
 AxiosInstance.defaults.headers.post["Content-Type"] = "application/json";
