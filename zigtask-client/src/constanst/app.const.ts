@@ -13,3 +13,10 @@ export enum EErrorCodes {
   INTERNAL_SERVER_ERROR = 500,
 }
 
+export enum EMinLength {
+  PASSWORD = 6,
+}
+
+export enum EMaxLength {
+  PASSWORD = 20,
+}

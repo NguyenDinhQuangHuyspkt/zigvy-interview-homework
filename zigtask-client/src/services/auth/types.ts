@@ -12,7 +12,7 @@ export type TResponseLogin = {
 };
 
 export type TRequestRegister = {
-  gmail: string;
+  email: string;
   password: string;
 };
 

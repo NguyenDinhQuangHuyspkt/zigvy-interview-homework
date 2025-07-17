@@ -19,6 +19,10 @@ const FormLogin : FC<TFormLogin>= (props) => {
 
   const formLoginSchema = genSchemaFormLogin(formLabel)
 
+  const handleNavigateRegister = () => {
+    navigate("/register");
+  };
+
   const handleSubmitLogin = async () => {
     try {
       setIsLoading(true);
@@ -43,7 +47,6 @@ const FormLogin : FC<TFormLogin>= (props) => {
   });
 
   const { values, errors } = formik;
-
 
   return (
     <form
@@ -92,7 +95,11 @@ const FormLogin : FC<TFormLogin>= (props) => {
       </div>
 
       <div className="flex gap-2 justify-center w-3/4 px-3">
-        <Button type='default' className=" rounded-md">
+        <Button   
+          type='default'
+          className="rounded-md"
+          onClick={handleNavigateRegister}
+        >
           <Link className="text-lg font-quickSand">
             Đăng ký
           </Link>
