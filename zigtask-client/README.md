@@ -1,46 +1,59 @@
-# Getting Started with Create React App
+# ZigTask Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ZigTask Client is a React + TypeScript web application for managing tasks, designed to work with the ZigTask NestJS backend API. It features user authentication, task creation, editing, deletion, and filtering, with a clean UI built using Ant Design and Tailwind CSS.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Authentication:** Sign up and sign in with email and password. JWT tokens are stored securely in cookies.
+- **Task Dashboard:** View tasks grouped by status ("To Do", "In Progress", "Done"). Update status with immediate UI feedback.
+- **Task Management:** Create, edit, and delete tasks. Tasks include title, description, due date, and status.
+- **Search & Filter:** Real-time search by title and filter tasks by date range.
+- **Responsive UI:** Built with Tailwind CSS and Ant Design for a modern, responsive experience.
+- **Notifications:** Success and error toasts for user feedback.
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. **Install dependencies:**
+   ```sh
+   npm install
+   # or
+   yarn install
+   ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. **Configure environment variables:**
+   - Copy `.env.example` to `.env` and set `REACT_APP_URL_SERVER` to your backend API URL (default: `http://localhost:3000`).
 
-### `npm test`
+3. **Run the development server:**
+   ```sh
+   npm start
+   # or
+   yarn start
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. **Access the app:**
+   - Open [http://localhost:3001](http://localhost:3001) in your browser.
 
-### `npm run build`
+## Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `src/pages`: Main pages (Home, Register, Main, Auth).
+- `src/features`: Reusable UI features (forms, modals, task dashboard).
+- `src/services`: API service layer for authentication and tasks.
+- `src/components`: Task components and types.
+- `src/utils`: Utility functions (toast notifications, auth helpers).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Technologies Used
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- React 19 + TypeScript
+- Ant Design
+- Tailwind CSS
+- Formik & Yup (form handling & validation)
+- Axios (API requests)
+- React Router v7
 
-### `npm run eject`
+## Notes
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Requires ZigTask API backend running at the URL specified in `.env`.
+- JWT tokens are managed via cookies for secure authentication.
+- All API errors and network issues are handled with user-friendly toasts.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
