@@ -15,8 +15,10 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { ETaskStatus } from './task.schema';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard('jwt'))
+@ApiTags('tasks')
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
@@ -34,11 +36,13 @@ export class TasksController {
     return this.tasksService.findAll();
   }
 
+  @ApiQuery({ name: 'status', enum: ETaskStatus, required: false })
   @Get('status')
   findByStatus(@Query('status') status: ETaskStatus) {
     return this.tasksService.findByStatus(status);
   }
 
+  @ApiQuery({ name: 'q', required: false })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tasksService.findOne(id);
